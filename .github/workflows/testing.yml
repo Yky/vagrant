@@ -30,5 +30,7 @@ jobs:
         run: sudo apt-get update ; sudo apt-get -yq install bsdtar
         env:
           DEBIAN_FRONTEND: noninteractive
+      - name: Ensure Bundler Installed
+        run: sudo gem install --no-document bundler
       - run: bundle install
       - run: bundle exec rake test:unit
