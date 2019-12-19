@@ -31,6 +31,6 @@ jobs:
         env:
           DEBIAN_FRONTEND: noninteractive
       - name: Ensure Bundler Installed
-        run: sudo gem install --no-document bundler
+        run: gem install --no-document bundler
       - run: bundle install
       - run: bundle exec rake test:unit
