@@ -1,0 +1,24 @@
+on:
+  push:
+    branches:
+      - master
+      - 'build-*'
+    tags: '*'
+    paths-ignore:
+      - 'CHANGELOG.md'
+      - 'website/**'
+
+jobs:
+  build-gem:
+    name: Build Vagrant RubyGem
+    runs-on: self-hosted
+    needs: unit-tests
+    steps:
+      - name: Code Checkout
+        uses: actions/checkout@v1
+      - name: Build RubyGem
+        run: ./.ci/build.sh
+        working-directory: ${{github.workspace}}
+      - name: Clean Workspace
+        if: always()
+        run: rm -rf ${{ github.workspace }}

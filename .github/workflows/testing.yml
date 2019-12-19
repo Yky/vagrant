@@ -1,0 +1,34 @@
+on:
+  push:
+    branches:
+      - master
+    paths-ignore:
+      - 'CHANGELOG.md'
+      - 'website/**'
+  pull_request:
+    branches:
+      - master
+      - 'test-*'
+      - 'build-*'
+
+jobs:
+  unit-tests:
+    runs-on: ubuntu-18.04
+    strategy:
+      matrix:
+        ruby: [ '2.4.x', '2.5.x', '2.6.x' ]
+    name: Vagrant unit tests on Ruby ${{ matrix.ruby }}
+    steps:
+      - name: Code Checkout
+        uses: actions/checkout@v1
+      - name: Setup Ruby
+        uses: actions/setup-ruby@v1
+        with:
+          ruby-version: ${{matrix.ruby}}
+          architecture: 'x64'
+      - name: Install dependencies
+        run: sudo apt-get update ; sudo apt-get -yq install bsdtar
+        env:
+          DEBIAN_FRONTEND=noninteractive
+      - run: bundle install
+      - run: bundle exec rake test:unit
