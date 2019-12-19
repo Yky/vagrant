@@ -2,14 +2,14 @@ on:
   push:
     branches:
       - master
+      - 'test-*'
+      - 'build-*'
     paths-ignore:
       - 'CHANGELOG.md'
       - 'website/**'
   pull_request:
     branches:
       - master
-      - 'test-*'
-      - 'build-*'
 
 jobs:
   unit-tests:
